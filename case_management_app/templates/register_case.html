@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Register Case{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Register Case</h1>
+    {% bootstrap_form_errors case_form %}
+    {% bootstrap_form_errors victim_form %}
+    {% bootstrap_form_errors reporter_form %}
+    
+    <form class="row g-3 needs-validation" novalidate method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- case details -->
+        <div class="form-group">
+            {% bootstrap_field case_form.case_title %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field case_form.case_description %}
+        </div>
+
+        <!-- victim status -->
+        <div class="form-group">
+            {% bootstrap_field victim_form.victim_name %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field victim_form.victim_phone_number %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field victim_form.victim_email %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field victim_form.victim_statement %}
+        </div>
+
+        <!-- reporter status -->
+        <div class="form-group">
+            {% bootstrap_field reporter_form.reporter_name %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field reporter_form.reporter_phone_number %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field reporter_form.reporter_email %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field reporter_form.reporter_statement %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field reporter_form.relationship_to_victim %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Case</button>
+    </form>
+</div>
+{% endblock content %}

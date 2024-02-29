@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Presented Evidence{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4 text-center">Presented Evidence for Case {{ evidence.case.case_title }} ({{
+        evidence.case.serial_number }})</h1>
+
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'case_management_app:registered_cases' %}" class="btn btn-primary">Back to Registered Cases</a>
+        {% if evidence.case.serial_number %}
+        <a href="{% url 'case_management_app:registered_case' evidence.case.serial_number %}"
+            class="btn btn-primary">Back to
+            Case</a>
+        {% endif %}
+    </div>
+
+    <section class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {% bootstrap_field evidence_form.presentation_details %}
+            </div>
+            <button type="submit" class="btn btn-success">Case Presented</button>
+        </form>
+    </section>
+</div>
+{% endblock content %}

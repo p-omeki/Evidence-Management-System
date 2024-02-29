@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+<section class="container">
+    <div class="m-2 text-center">
+        <p class="display-4">Login</p>
+        <p class="text-muted"><small>Enter your credentials to login to the evidence system.</small></p>
+    </div>
+    <div class="m-3">
+        <form action="{% url 'user_app:login' %}" class="row justify-content-center" method="post">
+            {% csrf_token %}
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <label for="badgenumber">Badge Number</label><br>
+                <input class="form-control" type="text" id="badgenumber" name="username" required><br>
+
+                <label for="password">Password</label><br>
+                <input class="form-control" type="password" id="password" name="password" required><br>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Login</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Register Officer{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <p class="display-3 text-center">Register a new officer</p>
+    <p class="text-muted text-center"><small>Fill in the form fields as required</small></p>
+</div>
+<section class="container mb-4">
+    <form action="{% url 'user_app:register' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input class="btn btn-success btn-sm" type="submit" value="Register">
+    </form>
+</section>
+{% endblock content %}

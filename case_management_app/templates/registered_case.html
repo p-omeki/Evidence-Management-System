@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Case - {{case.case_title}} ({{case.serial_number}}){% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4 text-center">Case - {{ case.case_title }} ({{case.serial_number}})</h1>
+
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'case_management_app:registered_cases' %}" class="btn btn-primary">Back to Registered Cases</a>
+        <a href="{% url 'case_management_app:create_evidence' case.serial_number %}" class="btn btn-primary">Create
+            Evidence</a>
+    </div>
+</div>
+
+<section class="container">
+    <p><strong>Serial Number:</strong> {{case.serial_number}}</p>
+    <p><strong>Title:</strong> {{case.case_title}}</p>
+    <p><strong>Description:</strong> {{case.case_description}}</p>
+    <p><strong>Case Officer:</strong> Officer {{case.case_officer.username}} - {{case.case_officer.get_full_name}}</p>
+    <p><strong>Status:</strong> {{case.case_status}}</p>
+    <p><strong>Created At:</strong> {{case.created_at}}</p>
+</section>
+
+<section class="section">
+    <h2 class="text-center">Evidence</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table" id="evidenceTable">
+                        <thead>
+                            <tr>
+                                <th>Evidence ID</th>
+                                <th>Evidence Type</th>
+                                <th>Is Analysed</th>
+                                <th>Is Presented</th>
+                                <th>Is Disposed</th>
+                                <th data-type="date" data-format="YYYY/DD/MM">Collected At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for evidence in evidences %}
+                            <tr>
+                                <td>{{evidence.id}}</td>
+                                <td>{{evidence.type}}</td>
+                                <td>{% if evidence.is_analysed %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                                <td>{% if evidence.is_presented %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                                <td>{% if evidence.is_disposed %}<p>Yes</p>{% else %}<p>No</p>{% endif %}</td>
+                                <td>{{ evidence.collected_on }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{% url 'case_management_app:analyse_evidence' evidence.id %}">Analyse</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{% url 'case_management_app:presented_evidence' evidence.id %}">Present</a>
+                                            </li>
+                                            {% if user.is_itofficer %}
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{% url 'case_management_app:disposed_evidence' evidence.id %}">Dispose</a>
+                                            </li>
+                                            {% endif %}
+                                            {% if user.is_itofficer %}
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{% url 'case_management_app:restore_evidence' evidence.id %}">Restore</a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $('#evidenceTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+
+</script>
+{% endblock content %}

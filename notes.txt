@@ -1,0 +1,20 @@
+notes.txt
+
+Abtract user has the folloeing fields
+
+username
+first_name
+last_name
+password
+email
+
+USerCreationForm has the followign default fieslds
+username
+first_name
+last_name
+password1
+password2
+email
+
+update section ITO,
+place to change password

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Analyse Evidence{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4 text-center">Analyse Evidence (ID - evidence.id) for Case {{evidence.case.case_title}} ({{case.serial_number}})</h1>
+
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'case_management_app:registered_cases' %}" class="btn btn-primary">Back to Registered Cases</a>
+        <a href="{% url 'case_management_app:registered_case' evidence.case.serial_number %}" class="btn btn-primary">Back to Case</a>
+    </div>
+</div>
+
+<section class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {% bootstrap_field evidence_form.analysis_details %}
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit Analysis</button>
+    </form>
+</section>
+{% endblock content %}

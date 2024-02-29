@@ -1,0 +1,20 @@
+{% extends base.html %}
+{% block content %}
+    <h1>Audit</h1>
+    <p>Here is the audit log:</p>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Username</th>
+            <th>Action</th>
+        </tr>
+        {% for entry in audit_log %}
+            <tr>
+                <td>{{ entry.time }}</td>
+                <td>{{ entry.username }}</td>
+                <td>{{ entry.action }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+```

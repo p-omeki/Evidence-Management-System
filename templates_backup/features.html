@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Features</title>
+</head>
+
+<body>
+    <h1>Evidence Management System Features</h1>
+
+    <h2>Register Case</h2>
+    <form action="{your_form_processing_url}" method="post">
+        <!-- Case Information -->
+        <label for="case_title">Case Title:</label>
+        <input type="text" id="case_title" name="case_title" required>
+
+        <label for="case_description">Case Description:</label>
+        <textarea id="case_description" name="case_description" required></textarea>
+
+        <!-- Victim Information -->
+        <label for="victim_name">Victim's Name:</label>
+        <input type="text" id="victim_name" name="victim_name" required>
+
+        <label for="victim_contact">Victim's Contact Information:</label>
+        <input type="text" id="victim_contact" name="victim_contact" required>
+
+        <label for="victim_statement">Victim's Statement:</label>
+        <textarea id="victim_statement" name="victim_statement" required></textarea>
+
+        <!-- Reporter Information -->
+        <label for="reporter_name">Reporter's Name:</label>
+        <input type="text" id="reporter_name" name="reporter_name" required>
+
+        <label for="reporter_contact">Reporter's Contact Information:</label>
+        <input type="text" id="reporter_contact" name="reporter_contact" required>
+
+        <label for="relationship_to_victim">Relationship to Victim:</label>
+        <input type="text" id="relationship_to_victim" name="relationship_to_victim">
+
+        <!-- Additional Information -->
+        <label for="additional_details">Additional Details:</label>
+        <textarea id="additional_details" name="additional_details"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+
+    <h2>Evidence Collected</h2>
+    {% if cases %}
+    <ul>
+        {% for case in cases %}
+        <li>
+            <strong>{{ case.case_title }}</strong>
+            <p>Date and Time: {{ case.date_and_time }}</p>
+            <p>Location: {{ case.location }}</p>
+            <!-- Add more details as needed -->
+            <a href="{% url 'case_details' case.id %}">View Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No cases have been registered or collected yet.</p>
+    {% endif %}
+
+
+    <h2>Analysed Evidence</h2>
+    {% if analyzed_evidence %}
+    <ul>
+        {% for evidence in analyzed_evidence %}
+        <li>
+            <strong>{{ evidence.title }}</strong>
+            <p>Analyzed by: {{ evidence.analyst }}</p>
+            <p>Assignment Status: {% if evidence.assigned %}Assigned{% else %}Not Assigned{% endif %}</p>
+            <!-- Add more details as needed -->
+            <a href="{% url 'evidence_details' evidence.id %}">View Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No evidence has been analyzed recently.</p>
+    {% endif %}
+
+
+    <h2>Presented Evidence</h2>
+
+    {% if presented_evidence %}
+    <ul>
+        {% for evidence in presented_evidence %}
+        <li>
+            <strong>{{ evidence.title }}</strong>
+            <p>Presented on: {{ evidence.presentation_date }}</p>
+            <p>Judgments: {{ evidence.judgments }}</p>
+            <p>Final Verdict: {{ evidence.final_verdict }}</p>
+            <p>Case Appealed: {% if evidence.appealed %}Yes{% else %}No{% endif %}</p>
+            {% if not evidence.appealed %}
+            <form action="{% url 'dispose_case' evidence.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Dispose Case</button>
+            </form>
+            {% endif %}
+            <a href="{% url 'evidence_details' evidence.id %}">View Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No evidence has been presented in court yet.</p>
+    {% endif %}
+
+
+    <h2>Disposed Evidence</h2>
+
+    {% if disposed_evidence %}
+    <ul>
+        {% for evidence in disposed_evidence %}
+        <li>
+            <strong>{{ evidence.title }}</strong>
+            <p>Verdict: {{ evidence.verdict }}</p>
+            <p>Disposed on: {{ evidence.disposal_date }}</p>
+            <p>Days Remaining in Recycle Bin: {{ evidence.days_remaining_in_recycle_bin }}</p>
+
+            {% if evidence.days_remaining_in_recycle_bin > 0 %}
+            <form action="{% url 'restore_case' evidence.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Restore Case</button>
+            </form>
+            {% else %}
+            <p>This case will be automatically deleted from the recycle bin soon.</p>
+            {% endif %}
+
+            <a href="{% url 'evidence_details' evidence.id %}">View Details</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No cases have been disposed yet.</p>
+    {% endif %}
+</body>
+
+</html>

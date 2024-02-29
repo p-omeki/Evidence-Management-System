@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Active Officers{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <p class="display-3 text-center">Active Officers</p>
+    <p class="text-muted text-center"><small>This is a list of all the active officers within the force.</small></p>
+</div>
+
+<section class="container m-2">
+    <table id="officerTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Badge Number</th>
+                <th>Rank</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for officer in officers %}
+            <tr>
+                <td>{{ officer.get_full_name }}</td>
+                <td>{{ officer.get_username }}</td>
+                <td>{{ officer.get_officer_rank_display }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="dropdown-item btn btn-sm btn-warning"
+                                    onclick="updateOfficerConfirm('{{ officer.get_full_name }}', '{{ officer.username }}', this)"
+                                    data-url="{% url 'user_app:update_officer' officer.get_username %}">Update</button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item btn btn-sm btn-delete"
+                                    onclick="deleteOfficerConfirm('{{ officer.get_full_name }}', '{{ officer.username }}', this)"
+                                    data-url="{% url 'user_app:delete_officer' officer.get_username %}" {% if officer.id is user.id %}disabled{% endif %}>Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</section>
+{% endblock content %}
+
+
+{% block custom_js %}
+<script>
+    let table = new DataTable('#officerTable');
+
+    function deleteOfficerConfirm(officer_name, badge_number, deleteButton) {
+        Swal.fire({
+            title: 'Warning!',
+            text: `Are you sure you want to delete the officer account for ${badge_number} (${officer_name})?`,
+            icon: 'error',
+            confirmButtonText: `Delete Officer`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = deleteButton.getAttribute('data-url');
+            }
+        })
+    }
+
+    function updateOfficerConfirm(officer_name, badge_number, updateButton) {
+        Swal.fire({
+            title: 'Update Officer',
+            text: `Are you sure you want to update the officer account for ${badge_number} (${officer_name})?`,
+            icon: 'info',
+            confirmButtonText: `Update Officer`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = updateButton.getAttribute('data-url');
+            }
+        })
+    }
+</script>
+{% endblock custom_js %}

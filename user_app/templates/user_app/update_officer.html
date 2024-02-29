@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load django_bootstrap5 %}
+
+{% block title %}Update Officer{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <p class="display-3 text-center">Update Officer</p>
+</div>
+
+<section class="container m-2">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Officer</button>
+    </form>
+</section>
+{% endblock content %}

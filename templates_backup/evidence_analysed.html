@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Evidence Analysed{% endblock title %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evidence Analysed</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="my-4">Evidence Analysed</h1>
+
+        <form action="{% url 'case_management_app:evidence_analysed' %}" method="post" class="needs-validation"
+            novalidate>
+            {% csrf_token %}
+
+            <!-- Case Information -->
+            <div class="form-group">
+                <label for="evidence">Case Title:</label>
+                <input type="text" class="form-control" id="evidence" name="evidence" required>
+            </div>
+
+            <div class="form-group">
+                <label for="analyst_name">Officer Name:</label>
+                <input type="text" class="form-control" id="analyst_name" name="analyst_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="analysis_date">Analysis Date:</label>
+                <input type="date" class="form-control" id="analysis_date" name="analysis_date" required>
+            </div>
+
+            <!-- Assigned To Information -->
+            <div class="form-group">
+                <label for="assigned_to">Assigned To:</label>
+                <input type="text" class="form-control" id="assigned_to" name="assigned_to" required>
+            </div>
+
+            <div class="form-group">
+                <label for="assignment_date">Assignment Date:</label>
+                <input type="date" class="form-control" id="assignment_date" name="assignment_date" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS and its dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+{% endblock %}
