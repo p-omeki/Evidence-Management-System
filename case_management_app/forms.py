@@ -1,5 +1,5 @@
 from django import forms
-from .models import Case, Evidence, Reporter, Victim
+from .models import Case, Evidence, Complainant
 
 
 class CaseForm(forms.ModelForm):
@@ -17,34 +17,17 @@ class CaseForm(forms.ModelForm):
         widgets = {"case_description": forms.Textarea(attrs={"rows": 4})}
 
 
-class VictimForm(forms.ModelForm):
+class ComplainantForm(forms.ModelForm):
     class Meta:
-        model = Victim
+        model = Complainant
         fields = [
             "case",
-            "victim_name",
-            "victim_phone_number",
-            "victim_email",
-            "victim_statement",
+            "complainant_name",
+            "complainant_phone_number",
+            "complainant_email",
+            "complainant_statement",
         ]
-        widgets = {"victim_statement": forms.Textarea(attrs={"rows": 4})}
-
-
-class ReporterForm(forms.ModelForm):
-    class Meta:
-        model = Reporter
-        fields = [
-            "case",
-            "reporter_name",
-            "reporter_phone_number",
-            "reporter_email",
-            "reporter_statement",
-            "relationship_to_victim",
-        ]
-        widgets = {
-            "reporter_statement": forms.Textarea(attrs={"rows": 4}),
-            "relationship_to_victim": forms.Textarea(attrs={"rows": 2}),
-        }
+        widgets = {"complainant_statement": forms.Textarea(attrs={"rows": 4})}
 
 
 class EvidenceCreationForm(forms.ModelForm):

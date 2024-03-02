@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Case, Evidence, Reporter, Victim
+from .models import Case, Evidence, Complainant
 from .forms import (
     CaseForm,
-    VictimForm,
-    ReporterForm,
+    ComplainantForm,    
     EvidenceCreationForm,
     EvidenceAnalysisForm,
     EvidencePresentationForm,
@@ -19,25 +18,20 @@ from user_app.decorators import itofficer_required
 def register_case(request):
     if request.method != "POST":
         case_form = CaseForm()
-        victim_form = VictimForm()
-        reporter_form = ReporterForm()
+        complainant_form = ComplainantForm()       
     else:
         case_form = CaseForm(request.POST)
-        victim_form = VictimForm(request.POST)
-        reporter_form = ReporterForm(request.POST)
-
-        if case_form.is_valid() and victim_form.is_valid() and reporter_form.is_valid():
+        complainant_form = ComplainantForm(request.POST)
+      
+        if case_form.is_valid() and complainant_form.is_valid():   
             case = case_form.save(commit=False)
-            victim = victim_form.save(commit=False)
-            reporter = reporter_form.save(commit=False)
+            complainant = complainant_form.save(commit=False)          
             case.case_officer = request.user
             case.save()
 
-            victim.case = case
-            reporter.case = case
-            victim.save()
-
-            reporter.save()
+            complainant.case = case          
+            complainant.save()
+            
             messages.success(request, "Case registered successfully!")
             return redirect("case_management_app:registered_cases")
         else:
@@ -47,8 +41,7 @@ def register_case(request):
 
     context = {
         "case_form": case_form,
-        "victim_form": victim_form,
-        "reporter_form": reporter_form,
+        "complainant_form": complainant_form,       
         "section": "register_case",
     }
     template_name = "register_case.html"
@@ -66,14 +59,12 @@ def registered_cases(request):
 def registered_case(request, serial_number):
     case = get_object_or_404(Case, serial_number=serial_number)
     evidences = Evidence.objects.filter(case=case)
-    victims = Victim.objects.filter(case=case)
-    reporters = Reporter.objects.filter(case=case)
-
+    complainants = Complainant.objects.filter(case=case)
+  
     context = {
         "case": case,
         "evidences": evidences,
-        "victims": victims,
-        "reporters": reporters,
+        "complainants": complainants,       
     }
     template_name = "registered_case.html"
     return render(request, template_name, context)

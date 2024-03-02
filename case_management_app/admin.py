@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Case, Evidence, Victim, Reporter
+from .models import Case, Evidence, Complainant
 
 
 @admin.register(Case)
@@ -16,13 +16,8 @@ class EvidenceAdmin(admin.ModelAdmin):
     list_filter = ("case",)
 
 
-@admin.register(Victim)
-class VictimAdmin(admin.ModelAdmin):
-    list_display = ("victim_name", "victim_phone_number", "victim_email")
-    search_fields = ("victim_name", "victim_phone_number", "victim_email")
+@admin.register(Complainant)
+class ComplainantAdmin(admin.ModelAdmin):
+    list_display = ("complainant_name", "complainant_phone_number", "complainant_email")
+    search_fields = ("complainant_name", "complainant_phone_number", "complainant_email")
 
-
-@admin.register(Reporter)
-class ReporterAdmin(admin.ModelAdmin):
-    list_display = ("reporter_name", "reporter_phone_number", "reporter_email")
-    search_fields = ("reporter_name", "reporter_phone_number", "reporter_email")

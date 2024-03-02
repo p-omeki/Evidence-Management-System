@@ -3,47 +3,21 @@ from django.utils import timezone
 from django.conf import settings
 
 
-class Victim(models.Model):
+class Complainant(models.Model):
     case = models.ForeignKey(
-        "Case", on_delete=models.CASCADE, related_name="victims", null=True, blank=True
+        "Case", on_delete=models.CASCADE, related_name="complainants", null=True, blank=True
     )
-    victim_name = models.CharField(max_length=255, default="No name provided")
-    victim_phone_number = models.CharField(max_length=20, default="No contact provided")
-    victim_email = models.EmailField(max_length=255, default="No email provided")
-    victim_statement = models.TextField(default="No statement provided")
+    complainant_name = models.CharField(max_length=255, default="No name provided")
+    complainant_phone_number = models.CharField(max_length=20, default="No contact provided")
+    complainant_email = models.EmailField(max_length=255, default="No email provided")
+    complainant_statement = models.TextField(default="No statement provided")
 
     def __str__(self):
-        return f"{self.victim_name} - {self.victim_phone_number}"
+        return f"{self.complainant_name} - {self.complainant_phone_number}"
 
     class Meta:
-        verbose_name = "Victim"
-        verbose_name_plural = "Victims"
-
-
-class Reporter(models.Model):
-    case = models.ForeignKey(
-        "Case",
-        on_delete=models.CASCADE,
-        related_name="reporters",
-        null=True,
-        blank=True,
-    )
-    reporter_name = models.CharField(max_length=255, default="No name provided")
-    reporter_phone_number = models.CharField(
-        max_length=20, default="No contact provided"
-    )
-    reporter_email = models.EmailField(max_length=255, default="No email provided")
-    reporter_statement = models.TextField(default="No statement provided")
-    relationship_to_victim = models.CharField(
-        max_length=255, default="No relationship provided"
-    )
-
-    def __str__(self):
-        return f"{self.reporter_name} - {self.reporter_phone_number}"
-
-    class Meta:
-        verbose_name = "Reporter"
-        verbose_name_plural = "Reporters"
+        verbose_name = "Complainant"
+        verbose_name_plural = "Complainants"
 
 
 class Case(models.Model):
