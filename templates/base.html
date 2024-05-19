@@ -13,7 +13,7 @@
 
   <!-- Favicons -->
   <link href="{% static 'guest/assets/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'guest/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <!-- <link href="{% static 'guest/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon"> -->
 
   <!-- Google Fonts -->
   <link
@@ -91,7 +91,7 @@
           </li>
           {% endif %}
 
-          
+
           {% if user.is_itofficer and case and case.id %}
           <li class="dropdown">
             <a href="#"><span>Bin Management</span> <i class="bi bi-chevron-down"></i></a>

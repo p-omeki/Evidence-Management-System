@@ -27,7 +27,7 @@ SECRET_KEY = "ds)-o$l&^vmrc@p1go=*e_fu($6b5*(hxr%_le63&61rsx#wp+"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["evidencemanagement.patrickmeki.me"]
+ALLOWED_HOSTS = ["evidencemanagement.patrickmeki.me", "127.0.0.1"]
 
 
 # Application definition
